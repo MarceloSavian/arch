@@ -1,15 +1,14 @@
 # Arch Linux Dotfiles
 
-Mostly a copy from [MathisP75/summer-day-and-night](https://github.com/MathisP75/summer-day-and-night), and mostly vibe coded because I just wanted to have some fast configs.
-
-Be careful using this, since it's vibe coded things might not work as expected.
+Hyprland setup with a sketchybar-inspired waybar. Single dark palette across
+waybar, hyprland borders, kitty and wofi.
 
 ## Packages
 
-- **hypr** - Hyprland config, themes, colors, scripts
-- **kitty** - Kitty terminal config + color themes
-- **waybar** - Waybar config, themes, colors, scripts
-- **wofi** - Wofi launcher config, themes, scripts
+- **hypr** - Hyprland config and helper scripts (wallpaper rotate, screenshot)
+- **kitty** - Kitty terminal config
+- **waybar** - Waybar config, style, scripts
+- **wofi** - Wofi launcher (drun) and powermenu modal
 - **shell** - `.bashrc`, `.bash_profile`, `.bash_logout`, `.zshrc`, `.xprofile`
 - **gtk** - GTK 2.0 theme settings
-- **wallpapers** - Wallpaper images
+- **wallpapers** - Wallpaper images (rotated every 10min by `awww-daemon`)

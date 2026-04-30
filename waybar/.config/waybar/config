@@ -29,12 +29,13 @@
     "custom/memory-icon",
     "memory",
     "custom/disk-icon",
-    "disk"
+    "disk",
+    "custom/powermenu"
   ],
   "custom/arch": {
     "format": "󰣇",
     "tooltip": false,
-    "on-click": "pkill wofi || wofi --show drun --term=kitty --width=20% --height=50% --columns 1 -I -s ~/.config/wofi/themes/everforest-light.css -o $MAIN_DISPLAY"
+    "on-click": "pkill wofi || wofi --show drun --term=kitty --width=20% --height=50% --columns 1 -I"
   },
   "custom/spotify-back": {
     "format": "",
@@ -156,5 +157,10 @@
     "path": "/",
     "format": "{free}",
     "tooltip-format": "{used} / {total} used"
+  },
+  "custom/powermenu": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "pkill wofi || sh ~/.config/wofi/scripts/powermenu.sh"
   }
 }

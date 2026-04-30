@@ -1,0 +1,68 @@
+/* Unified wofi style — palette matches waybar style.css. */
+
+* {
+  font-family: "Monocraft", "InputMono Nerd Font", "JetBrainsMono Nerd Font";
+  font-size: 13px;
+  font-weight: 500;
+}
+
+window {
+  margin: 0;
+  background-color: #1a1c26;
+  color: #dfe1ea;
+  border: 1px solid #252731;
+  border-radius: 14px;
+}
+
+#outer-box {
+  background-color: transparent;
+  padding: 12px;
+}
+
+#input {
+  margin: 0 0 10px 0;
+  padding: 8px 12px;
+  background-color: #252731;
+  color: #dfe1ea;
+  border: none;
+  border-radius: 10px;
+}
+
+#input image {
+  color: #7aa2f7;
+}
+
+#scroll {
+  margin: 0;
+  background-color: transparent;
+}
+
+#inner-box {
+  background-color: transparent;
+}
+
+#text {
+  margin: 0 0 0 8px;
+  color: #dfe1ea;
+}
+
+#img {
+  margin-right: 8px;
+}
+
+#entry {
+  padding: 6px 10px;
+  margin: 2px 0;
+  border-radius: 8px;
+  background-color: transparent;
+}
+
+#entry:selected,
+#entry:focus {
+  background-color: #383050;
+  border: 1px solid #583794;
+}
+
+#entry:selected #text {
+  color: #e0af68;
+}

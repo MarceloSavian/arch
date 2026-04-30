@@ -1,16 +1,28 @@
 #!/bin/bash
 
-entries="⭮ Reboot\n⏻ Shutdown\n⇠ Logout\n⏾ Suspend"
+# Glyphs are FontAwesome 7 (covered by InputMono Nerd Font).
+SHUTDOWN=$''
+REBOOT=$''
+SUSPEND=$''
+LOGOUT=$''
 
-selected=$(echo -e $entries|wofi --width 250 --height 220 --dmenu $2 --style ~/.config/wofi/themes/$1.css --hide_search=true --hide-scroll --cache-file /dev/null | awk '{print tolower($2)}')
+entries="$SHUTDOWN Shutdown
+$REBOOT Reboot
+$SUSPEND Suspend
+$LOGOUT Logout"
+
+selected=$(echo -e "$entries" | wofi \
+    --dmenu \
+    --width 240 --height 240 \
+    --style ~/.config/wofi/style.css \
+    --hide-scroll \
+    --cache-file /dev/null \
+    --prompt "Power" \
+    "$@" | awk '{print tolower($2)}')
 
 case $selected in
-  logout)
-    exec hyprctl dispatch exit NOW;;
-  suspend)
-    exec systemctl suspend;;
-  reboot)
-    exec systemctl reboot;;
-  shutdown)
-    exec systemctl poweroff -i;;
+  shutdown) exec systemctl poweroff -i ;;
+  reboot)   exec systemctl reboot ;;
+  suspend)  exec systemctl suspend ;;
+  logout)   exec hyprctl dispatch exit NOW ;;
 esac

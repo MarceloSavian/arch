@@ -1,0 +1,133 @@
+# Palette matches waybar style.css (sketchybar-inspired).
+
+[mgr]
+cwd = { fg = "#7aa2f7" }
+
+# File highlight (cursor row)
+hovered         = { fg = "#e0af68", bg = "#383050", bold = true }
+preview_hovered = { underline = true }
+
+# Find
+find_keyword  = { fg = "#bfc945", italic = true }
+find_position = { fg = "#f6768e", bg = "reset", italic = true }
+
+# Marker (left-edge bar of selected/cut/copied rows)
+marker_copied   = { fg = "#9fd06a", bg = "#9fd06a" }
+marker_cut      = { fg = "#f6768e", bg = "#f6768e" }
+marker_marked   = { fg = "#7aa2f7", bg = "#7aa2f7" }
+marker_selected = { fg = "#e0af68", bg = "#e0af68" }
+
+# Tab
+tab_active   = { fg = "#dfe1ea", bg = "#383050", bold = true }
+tab_inactive = { fg = "#6d8896", bg = "#252731" }
+tab_width    = 1
+
+# Border
+border_symbol = "│"
+border_style  = { fg = "#252731" }
+
+# Highlighting (built-in syntect themes — leave empty to use terminal colors)
+syntect_theme = ""
+
+[status]
+separator_open  = ""
+separator_close = ""
+separator_style = { fg = "#252731", bg = "#1a1c26" }
+
+# Mode pill (left side of the status bar — mirrors the bar's pill style)
+mode_normal = { fg = "#1a1c26", bg = "#7aa2f7", bold = true }
+mode_select = { fg = "#1a1c26", bg = "#e0af68", bold = true }
+mode_unset  = { fg = "#1a1c26", bg = "#583794", bold = true }
+
+# Permissions column
+perm_type  = { fg = "#7aa2f7" }
+perm_read  = { fg = "#e0af68" }
+perm_write = { fg = "#f6768e" }
+perm_exec  = { fg = "#9fd06a" }
+perm_sep   = { fg = "#6d8896" }
+
+# Progress bar (bottom right)
+progress_label  = { fg = "#dfe1ea", bold = true }
+progress_normal = { fg = "#7aa2f7", bg = "#252731" }
+progress_error  = { fg = "#f6768e", bg = "#252731" }
+
+[input]
+border   = { fg = "#7aa2f7" }
+title    = {}
+value    = {}
+selected = { reversed = true }
+
+[confirm]
+border  = { fg = "#7aa2f7" }
+title   = { fg = "#e0af68" }
+content = {}
+list    = {}
+btn_yes = { reversed = true }
+btn_no  = {}
+
+[pick]
+border   = { fg = "#7aa2f7" }
+active   = { fg = "#e0af68", bold = true }
+inactive = { fg = "#dfe1ea" }
+
+[cmp]
+border   = { fg = "#7aa2f7" }
+active   = { fg = "#e0af68", bg = "#383050" }
+inactive = { fg = "#dfe1ea" }
+
+[tasks]
+border  = { fg = "#7aa2f7" }
+title   = { fg = "#e0af68" }
+hovered = { underline = true }
+
+[which]
+mask            = { bg = "#1a1c26" }
+cand            = { fg = "#7aa2f7" }
+rest            = { fg = "#6d8896" }
+desc            = { fg = "#e0af68" }
+separator       = "  "
+separator_style = { fg = "#252731" }
+
+[help]
+on      = { fg = "#7aa2f7" }
+run     = { fg = "#e0af68" }
+desc    = { fg = "#dfe1ea" }
+hovered = { bg = "#383050", bold = true }
+footer  = { fg = "#dfe1ea", bg = "#252731" }
+
+[notify]
+title_info  = { fg = "#9fd06a" }
+title_warn  = { fg = "#e0af68" }
+title_error = { fg = "#f6768e" }
+
+[spot]
+border   = { fg = "#7aa2f7" }
+title    = { fg = "#e0af68" }
+tbl_col  = { fg = "#7aa2f7", bold = true }
+tbl_cell = { fg = "#dfe1ea" }
+
+# ---------- File icons / colors by type ----------
+[filetype]
+rules = [
+  # Images
+  { mime = "image/*", fg = "#bfc945" },
+  # Videos
+  { mime = "video/*", fg = "#f6768e" },
+  # Audio
+  { mime = "audio/*", fg = "#4ed2e3" },
+  # Archives
+  { mime = "application/zip",                        fg = "#e0af68" },
+  { mime = "application/gzip",                       fg = "#e0af68" },
+  { mime = "application/x-tar",                      fg = "#e0af68" },
+  { mime = "application/x-bzip",                     fg = "#e0af68" },
+  { mime = "application/x-bzip2",                    fg = "#e0af68" },
+  { mime = "application/x-7z-compressed",            fg = "#e0af68" },
+  { mime = "application/x-rar",                      fg = "#e0af68" },
+  # Documents
+  { mime = "application/pdf",                        fg = "#f6768e" },
+  { mime = "application/msword",                     fg = "#7aa2f7" },
+  { mime = "application/vnd.openxmlformats-officedocument.*", fg = "#7aa2f7" },
+  # Fallbacks
+  { name = "*",  fg = "#dfe1ea" },
+  { name = "*/", fg = "#7aa2f7", bold = true },
+]

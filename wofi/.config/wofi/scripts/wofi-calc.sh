@@ -10,7 +10,7 @@ QALC_RET=""
 while :
 do
   qalc_hist=`tac $RESULT_FILE | head -1000`
-  WOFI_RET=`wofi $2 --style ~/.config/wofi/themes/$1.css --sort-order=default --cache-file=/dev/null -d -p calc <<< "$qalc_hist"`
+  WOFI_RET=`wofi "$@" --style ~/.config/wofi/style.css --sort-order=default --cache-file=/dev/null -d -p calc <<< "$qalc_hist"`
   echo $WOFI_RET
   rtrn=$?
 

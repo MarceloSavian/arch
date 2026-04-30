@@ -179,3 +179,19 @@ window#waybar {
 #battery.warning  { color: #fbc62d; }
 #battery.critical { color: #f65e51; }
 #pulseaudio.muted { color: #f65e51; }
+
+/* ---------- Shutdown pill (standalone, red power glyph) ---------- */
+#custom-powermenu {
+  background-color: #252731;
+  color: #f6768e;
+  font-family: "Font Awesome 7 Free Solid", "InputMono Nerd Font";
+  font-size: 14px;
+  padding: 0 14px;
+  margin: 6px 6px 6px 3px;
+  border-radius: 18px;
+}
+
+#custom-powermenu:hover {
+  background-color: #2e2a40;
+  color: #f65e51;
+}

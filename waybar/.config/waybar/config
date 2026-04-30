@@ -1,116 +1,160 @@
 {
-  "margin-top": 0,
-  "margin-left": 120,
+  "margin-top": 9,
+  "margin-left": 95,
   "margin-bottom": 0,
-  "margin-right": 120,
-  "height": 60,
+  "margin-right": 95,
+  "height": 50,
   "layer": "top",
   "position": "top",
-  "spacing": 15,
-  "modules-left": ["custom/launcher", "clock", "clock#date"],
-  "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["pulseaudio", "custom/bluetooth", "network", "battery", "custom/powermenu"],
-
+  "spacing": 0,
+  "modules-left": [
+    "custom/arch",
+    "custom/spotify-back",
+    "custom/spotify-playpause",
+    "custom/spotify-forward",
+    "custom/spotify-icon",
+    "custom/spotify-song",
+    "hyprland/workspaces"
+  ],
+  "modules-right": [
+    "custom/battery-icon",
+    "battery",
+    "custom/volume-icon",
+    "pulseaudio",
+    "custom/bluetooth-icon",
+    "custom/clock-icon",
+    "clock",
+    "custom/cpu-icon",
+    "cpu",
+    "custom/memory-icon",
+    "memory",
+    "custom/disk-icon",
+    "disk"
+  ],
+  "custom/arch": {
+    "format": "󰣇",
+    "tooltip": false,
+    "on-click": "pkill wofi || wofi --show drun --term=kitty --width=20% --height=50% --columns 1 -I -s ~/.config/wofi/themes/everforest-light.css -o $MAIN_DISPLAY"
+  },
+  "custom/spotify-back": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "playerctl --player=spotify previous"
+  },
+  "custom/spotify-playpause": {
+    "exec": "~/.config/waybar/scripts/spotify-playpause.sh",
+    "interval": 1,
+    "format": "{}",
+    "tooltip": false,
+    "on-click": "playerctl --player=spotify play-pause"
+  },
+  "custom/spotify-forward": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "playerctl --player=spotify next"
+  },
+  "custom/spotify-icon": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "playerctl --player=spotify play-pause"
+  },
+  "custom/spotify-song": {
+    "exec": "~/.config/waybar/scripts/spotify-song.sh",
+    "interval": 5,
+    "format": "{}",
+    "tooltip": false,
+    "on-click": "playerctl --player=spotify play-pause"
+  },
   "hyprland/workspaces": {
     "format": "{name}",
-    "on-click": "activate"
+    "on-click": "activate",
+    "all-outputs": true,
+    "persistent-workspaces": {
+      "*": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    }
   },
-
-  "custom/launcher": {
-    "interval": "once",
-    "format": "󰣇",
-    "on-click": "pkill wofi || wofi --show drun --term=kitty --width=20% --height=50% --columns 1 -I -s ~/.config/wofi/themes/everforest-light.css -o $MAIN_DISPLAY",
-    "tooltip": false
-  },
-
-  "backlight": {
-    "device": "intel_backlight",
-    "max-length": "4",
-    "format": "{icon}",
-    "tooltip-format": "{percent}%",
-    "format-icons": ["","","","", "", "", ""],
-    "on-click": "",
-    "on-scroll-up": "brightnessctl set 10%-",
-    "on-scroll-down": "brightnessctl set +10%"
-  },
-
-  "memory": {
+  "custom/battery-icon": {
+    "exec": "~/.config/waybar/scripts/battery-icon.sh",
     "interval": 30,
-    "format": "  {}%",
-    "format-alt": " {used:0.1f}G",
-    "max-length": 10
-  },
-
-  "custom/dunst": {
-    "exec": "~/.config/waybar/scripts/dunst.sh",
-    "on-click": "dunstctl set-paused toggle",
-    "restart-interval": 1,
+    "format": "{}",
     "tooltip": false
   },
-
-  "pulseaudio": {
-    "format": "{icon} {volume}%",
-    "format-bluetooth": "{icon}  {volume}%",
-    "format-bluetooth-muted": "婢  muted",
-    "format-muted": "婢 muted",
-    "format-icons": {
-      "headphone": "",
-      "hands-free": "",
-      "headset": "",
-      "phone": "",
-      "portable": "",
-      "car": "",
-      "default": ["", "", ""]
-    },
-    "on-click-right": "pavucontrol",
-    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
-  },
-
-  "custom/bluetooth": {
-    "format": "{}",
-    "exec": "/home/marcelo/.config/waybar/scripts/bluetooth-simple.sh",
-    "interval": 5,
-    "on-click": "blueman-manager"
-  },
-
-  "network": {
-    "format-wifi": " {signalStrength}%",
-    "format-ethernet": " {signalStrength}%",
-    "format-disconnected": "󰤭",
-    "on-click": "sh ~/.config/wofi/scripts/wifimenu.sh"
-  },
-
   "battery": {
     "bat": "BAT1",
     "adapter": "ACAD",
-    "interval": 60,
+    "interval": 30,
     "states": {
       "warning": 30,
       "critical": 15
     },
-    "max-length": 10,
-    "format": "{icon} {capacity}%",
-    "format-warning": "{icon} {capacity}%",
-    "format-critical": "{icon} {capacity}%",
-    "format-charging": " {capacity}%",
-    "format-plugged": " {capacity}%",
-    "format-alt": "{icon} {capacity}%",
-    "format-full": " 100%",
-    "format-icons": ["", "", "", "", "", "", "", "", "", ""]
+    "format": "{capacity}%",
+    "format-charging": "{capacity}%",
+    "format-plugged": "{capacity}%",
+    "format-full": "100%"
   },
-
-  "clock": {
-    "format": " {:%H:%M}"
+  "custom/volume-icon": {
+    "exec": "~/.config/waybar/scripts/volume-icon.sh",
+    "interval": 1,
+    "format": "{}",
+    "tooltip": false,
+    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "on-click-right": "pavucontrol"
   },
-
-  "clock#date": {
-    "format": " {:%A, %B %d, %Y}"
+  "pulseaudio": {
+    "format": "{volume}%",
+    "format-muted": "muted",
+    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "on-click-right": "pavucontrol"
   },
-
-  "custom/powermenu": {
-    "format": "",
-    "on-click": "pkill wofi || sh ~/.config/wofi/scripts/powermenu.sh 'everforest-light' '--height=23% -o $MAIN_DISPLAY'",
+  "custom/bluetooth-icon": {
+    "exec": "~/.config/waybar/scripts/bluetooth-icon.sh",
+    "interval": 5,
+    "format": "{}",
+    "tooltip": false,
+    "on-click": "blueman-manager"
+  },
+  "custom/clock-icon": {
+    "format": "",
     "tooltip": false
+  },
+  "clock": {
+    "format": "{:%a %d %b %H:%M}"
+  },
+  "custom/cpu-icon": {
+    "format": "",
+    "tooltip": false
+  },
+  "cpu": {
+    "interval": 10,
+    "format": "{usage}%"
+  },
+  "custom/memory-icon": {
+    "format": "",
+    "tooltip": false
+  },
+  "memory": {
+    "interval": 10,
+    "format": "{percentage}%"
+  },
+  "custom/disk-icon": {
+    "format": "",
+    "tooltip": false
+  },
+  "disk": {
+    "interval": 60,
+    "path": "/",
+    "format": "{free}",
+    "tooltip-format": "{used} / {total} used"
   }
 }
-

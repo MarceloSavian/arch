@@ -1,98 +1,181 @@
-@import "./colors/everforest.css";
-
-/* margin: top right bottom left */
-/* Spacing outside the element */
-
-/* padding: top right bottom left */
-/* Spacing inside the element */
+/* Sketchybar-inspired: dark floating bar with two-toned pill modules
+   (each pill = colored icon-module + white label-module fused via CSS). */
 
 * {
-  font-family: JetBrainsMono Nerd Font, FontAwesome;
-  font-size: 16px;
-  font-weight: bold;
+  font-family: "Monocraft", "InputMono Nerd Font";
+  font-size: 12px;
+  font-weight: 500;
+  min-height: 0;
 }
 
 window#waybar {
-  background-color: @bg0;
-  color: @fg;
-  transition-property: background-color;
-  transition-duration: 0.5s;
-  border-radius: 0px 0px 15px 15px;
-  transition-duration: .5s;
-
-  border-bottom-width: 5px;
-  border-bottom-color: #7d6a40;
-  border-bottom-style: solid;
+  background-color: #1a1c26;
+  color: #dfe1ea;
+  border-radius: 14px;
+  border: none;
 }
 
-#custom-launcher,
-#clock,
-#clock-date,
-#pulseaudio,
-#custom-bluetooth,
-#network,
-#battery,
-#custom-powermenu {
-  background-color: @bg0;
-  color: @fg;
-
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-top: 7px;
-  margin-bottom: 12px;
-	border-radius: 10px;
-
-  border-bottom-width: 5px;
-  border-bottom-color: #161a1d;
-  border-bottom-style: solid;
-}
-
-#workspaces {
-  padding: 0px;
+/* ---------- Arch logo (no pill, mirrors green apple icon) ---------- */
+#custom-arch {
+  color: #9fd06a;
+  font-family: "InputMono Nerd Font";
+  font-size: 18px;
+  padding: 0 10px 0 13px;
+  margin: 6px 3px 6px 4px;
   background-color: transparent;
+}
+
+/* ---------- Spotify control trio (one fused pill) ---------- */
+#custom-spotify-back,
+#custom-spotify-playpause,
+#custom-spotify-forward {
+  font-family: "Material Icons", "InputMono Nerd Font";
+  background-color: #252731;
+}
+
+#custom-spotify-back {
+  color: #7aa2f7;
+  font-size: 18px;
+  padding: 0 6px 0 14px;
+  margin: 6px 0 6px 3px;
+  border-radius: 18px 0 0 18px;
+}
+
+#custom-spotify-playpause {
+  color: #bfc945;
+  font-size: 16px;
+  padding: 0 6px;
+  margin: 6px 0;
+  border-radius: 0;
+}
+
+#custom-spotify-forward {
+  color: #7aa2f7;
+  font-size: 18px;
+  padding: 0 14px 0 6px;
+  margin: 6px 3px 6px 0;
+  border-radius: 0 18px 18px 0;
+}
+
+/* ---------- Spotify song pill (green icon + white label) ---------- */
+#custom-spotify-icon {
+  color: #1db954;
+  font-family: "Font Awesome 7 Brands", "InputMono Nerd Font";
+  background-color: #252731;
+  padding: 0 6px 0 14px;
+  margin: 6px 0 6px 3px;
+  border-radius: 18px 0 0 18px;
+}
+
+#custom-spotify-song {
+  color: #dfe1ea;
+  background-color: #252731;
+  padding: 0 14px 0 4px;
+  margin: 6px 3px 6px 0;
+  border-radius: 0 18px 18px 0;
+}
+
+/* ---------- Workspaces bracket ---------- */
+#workspaces {
+  background-color: #1a1c26;
+  border-radius: 10px;
+  margin: 6px 6px;
+  padding: 0 4px;
 }
 
 #workspaces button {
-  padding-left: 12px;
-  padding-right: 12px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  margin: 5px 3px;
-  background-color: transparent;
-  color: @fg;
+  background-color: #252630;
+  color: #583794;
+  font-weight: bold;
+  padding: 0 8px;
+  margin: 3px;
+  border-radius: 6px;
   border: none;
-  border-radius: 10px;
+  min-width: 0;
 }
 
 #workspaces button.active {
-  background-color: @blue;
-  color: @bg0;
-  border-radius: 10px;
-  border-bottom-width: 5px;
-  border-bottom-color: #366660;
-  border-bottom-style: solid;
+  background-color: #383050;
+  color: #e0af68;
+  border: 1px solid #583794;
+}
+
+#workspaces button.empty {
+  background-color: #252630;
+  color: #583794;
+}
+
+#workspaces button:not(.empty):not(.active) {
+  background-color: #2e2a40;
+  color: #9aa5ce;
 }
 
 #workspaces button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #2e2a40;
+  box-shadow: none;
+  text-shadow: none;
 }
 
-#custom-launcher {
-  background-color: @green;
-  color: @bg0;
-  border-bottom-color: #556a35;
-
-  margin-left: 15px;
-  padding-left: 20px;
-  padding-right: 21px;
+/* ---------- Right-side icon halves (colored, FA font) ---------- */
+#custom-battery-icon,
+#custom-volume-icon,
+#custom-bluetooth-icon,
+#custom-updates-icon,
+#custom-clock-icon,
+#custom-cpu-icon,
+#custom-memory-icon,
+#custom-disk-icon {
+  background-color: #252731;
+  font-family: "Font Awesome 7 Free Solid", "Font Awesome 7 Brands", "InputMono Nerd Font";
+  font-size: 13px;
+  padding: 0 6px 0 14px;
+  margin: 6px 0 6px 3px;
+  border-radius: 18px 0 0 18px;
 }
 
-#custom-powermenu {
-  background-color: @red;
-  color: @bg0;
-  border-bottom-color: #951c1f;
-
-  margin-right: 15px;
-  padding-left: 20px;
-  padding-right: 23px;
+/* Bluetooth is a standalone pill (icon + optional connected count). MDI
+   glyphs (incl. bluetooth-off with slash) live in Nerd Font, not FA. */
+#custom-bluetooth-icon {
+  font-family: "InputMono Nerd Font", "Monocraft";
+  padding: 0 12px;
+  margin: 6px 3px;
+  border-radius: 18px;
 }
+
+/* Memory uses Material Icons (cleaner chip glyph than FA's RAM-stick) */
+#custom-memory-icon {
+  font-family: "Material Icons", "InputMono Nerd Font";
+  font-size: 15px;
+}
+
+/* Accent colors per icon (matches sketchybar palette) */
+#custom-battery-icon   { color: #9ac868; }
+#custom-volume-icon    { color: #6c77bb; }
+#custom-bluetooth-icon { color: #7aa2f7; }
+#custom-updates-icon   { color: #b9c244; }
+#custom-clock-icon     { color: #6d8896; }
+#custom-cpu-icon       { color: #f6768e; }
+#custom-memory-icon    { color: #4ed2e3; }
+#custom-disk-icon      { color: #fbc02d; }
+
+/* ---------- Right-side label halves (white text, fused to icon) ---------- */
+#battery,
+#pulseaudio,
+#custom-bluetooth,
+#custom-updates,
+#clock,
+#cpu,
+#memory,
+#disk {
+  background-color: #252731;
+  color: #dfe1ea;
+  font-family: "Monocraft", "InputMono Nerd Font";
+  padding: 0 14px 0 4px;
+  margin: 6px 3px 6px 0;
+  border-radius: 0 18px 18px 0;
+}
+
+/* Battery state still recolors the label text */
+#battery.warning  { color: #fbc62d; }
+#battery.critical { color: #f65e51; }
+#pulseaudio.muted { color: #f65e51; }

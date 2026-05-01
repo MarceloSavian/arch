@@ -1,0 +1,15 @@
+[SddmGreeterTheme]
+Name=Cyberpunk MR
+Description=Neon cyberpunk theme matching Hyprland/waybar palette. Centered password, customizable background.
+Author=marcelo
+Copyright=2026
+License=MIT
+Type=sddm-theme
+Version=1.0
+Website=
+Screenshot=Backgrounds/wallpaper.png
+MainScript=Main.qml
+ConfigFile=theme.conf
+TranslationsDirectory=translations
+Theme-Id=cyberpunk-mr
+Theme-API=2.0

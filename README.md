@@ -183,7 +183,7 @@ a working state without further input beyond confirming sudo commands.
 |---|---|
 | `SUPER+RETURN` | Open kitty |
 | `SUPER+Q` | Close window |
-| `SUPER+SHIFT+Q` | Lock screen (hyprlock) |
+| `CTRL+Q` | Lock screen (hyprlock) |
 | `SUPER+D` | App launcher (wofi) |
 | `SUPER+B` | Power menu |
 | `SUPER+E` | File manager (yazi in kitty) |

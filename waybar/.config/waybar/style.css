@@ -180,6 +180,25 @@ window#waybar {
 #battery.critical { color: #f65e51; }
 #pulseaudio.muted { color: #f65e51; }
 
+/* ---------- NordVPN pill (combined icon + country) ---------- */
+#custom-nordvpn {
+  background-color: #252731;
+  font-family: "Font Awesome 7 Free Solid", "Monocraft", "InputMono Nerd Font";
+  font-size: 13px;
+  padding: 0 14px;
+  margin: 6px 3px;
+  border-radius: 18px;
+  color: #7a8094;
+}
+
+#custom-nordvpn.connected    { color: #9ece6a; }
+#custom-nordvpn.disconnected { color: #7a8094; }
+#custom-nordvpn.error        { color: #f65e51; }
+
+#custom-nordvpn:hover {
+  background-color: #2e2a40;
+}
+
 /* ---------- Shutdown pill (standalone, red power glyph) ---------- */
 #custom-powermenu {
   background-color: #252731;

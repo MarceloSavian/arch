@@ -1,1 +1,4 @@
-xhost +SI:localuser:root
+# Intentionally empty.
+# Hyprland is a Wayland compositor; .xprofile is only sourced if you start
+# an X11 fallback session (e.g. via SDDM's "Plasma X11"). Add X11-only
+# environment overrides here if that ever applies.

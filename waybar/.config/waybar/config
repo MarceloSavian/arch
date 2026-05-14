@@ -36,7 +36,7 @@
   "custom/arch": {
     "format": "󰣇",
     "tooltip": false,
-    "on-click": "pkill wofi || wofi --show drun --term=kitty --width=20% --height=50% --columns 1 -I"
+    "on-click": "pkill wofi || wofi --show drun --term=kitty --style ~/.config/wofi/style.css --width=20% --height=50% --columns 1 -I"
   },
   "custom/spotify-back": {
     "format": "",

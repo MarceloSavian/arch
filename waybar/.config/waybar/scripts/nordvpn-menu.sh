@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Waybar click handler: wofi menu for NordVPN.
 
-WOFI=(wofi --dmenu --insensitive --width=22% --height=50% --prompt)
+WOFI=(wofi --dmenu --insensitive --style "$HOME/.config/wofi/style.css" --width=22% --height=50% --prompt)
 
 notify() { notify-send -a NordVPN "$1" "${2:-}"; }
 

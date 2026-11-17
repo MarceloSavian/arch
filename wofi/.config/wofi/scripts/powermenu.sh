@@ -24,5 +24,5 @@ case $selected in
   shutdown) exec systemctl poweroff -i ;;
   reboot)   exec systemctl reboot ;;
   suspend)  exec systemctl suspend ;;
-  logout)   exec hyprctl dispatch exit NOW ;;
+  logout)   command -v hyprshutdown >/dev/null && exec hyprshutdown || exec hyprctl dispatch 'hl.dsp.exit()' ;;
 esac

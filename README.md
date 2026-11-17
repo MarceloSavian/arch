@@ -43,7 +43,7 @@ sudo pacman -S --needed \
     hyprland hyprlock hypridle hyprpaper \
     waybar wofi kitty yazi \
     sddm qt5-graphicaleffects \
-    grim slurp swappy wl-clipboard cliphist \
+    grim slurp swappy hyprpicker wl-clipboard cliphist \
     brightnessctl playerctl pavucontrol \
     polkit-kde-agent network-manager-applet blueman \
     thunar tesseract jq stow rsync \
@@ -112,7 +112,7 @@ Reboot (or `sudo systemctl restart sddm` from a TTY) and you're in.
 
 | Package | What it's for |
 |---|---|
-| `grim` + `slurp` + `swappy` | Screenshots (`SUPER+PRINT`, `CTRL+SHIFT+4`) |
+| `grim` + `slurp` + `swappy` + `hyprpicker` | Screenshots (hyprpicker freezes the screen) (`SUPER+PRINT`, `CTRL+SHIFT+4`) |
 | `wl-clipboard` + `cliphist` | Clipboard history |
 | `brightnessctl` | Brightness keys |
 | `playerctl` | Media keys |
@@ -146,19 +146,29 @@ If a font is missing, waybar / wofi will fall back silently but icons may render
 
 ### Display layout
 
-`hyprland.conf` hardcodes two monitors:
+`hypr/.config/hypr/modules/monitors.lua` hardcodes two monitors:
 
-```
-monitor = HDMI-A-1,2560x1440@144,1920x0,1
-monitor = eDP-1,1920x1080@60,0x0,1
+```lua
+hl.monitor({ output = "HDMI-A-1", mode = "2560x1440@144", position = "1920x0", scale = 1 })
+hl.monitor({ output = "eDP-1",    mode = "1920x1080@60",  position = "0x0",    scale = 1 })
 ```
 
-Edit those lines or replace with `monitor=,preferred,auto,1` for autodetect.
+Edit those lines or replace with `hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1 })` for autodetect.
 
 ### NVIDIA env vars
 
-The `env =` block at the top of `hyprland.conf` is NVIDIA-specific. Strip
-those lines on AMD / Intel.
+The NVIDIA block in `hypr/.config/hypr/modules/env.lua` is NVIDIA-specific.
+Strip those lines on AMD / Intel.
+
+### Hyprland config (Lua)
+
+The Hyprland config uses the Lua format (Hyprland 0.57+): `hyprland.lua`
+just `require`s the files in `modules/` (env, monitors, autostart, look,
+input, rules, binds). Validate after editing with:
+
+```bash
+Hyprland --verify-config -c ~/.config/hypr/hyprland.lua
+```
 
 ---
 

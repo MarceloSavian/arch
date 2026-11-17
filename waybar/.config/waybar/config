@@ -17,11 +17,11 @@
     "hyprland/workspaces"
   ],
   "modules-right": [
-    "custom/battery-icon",
+    "battery#icon",
     "battery",
-    "custom/volume-icon",
+    "pulseaudio#icon",
     "pulseaudio",
-    "custom/bluetooth-icon",
+    "bluetooth",
     "custom/nordvpn",
     "custom/clock-icon",
     "clock",
@@ -45,7 +45,6 @@
   },
   "custom/spotify-playpause": {
     "exec": "~/.config/waybar/scripts/spotify-playpause.sh",
-    "interval": 1,
     "format": "{}",
     "tooltip": false,
     "on-click": "playerctl --player=spotify play-pause"
@@ -62,7 +61,6 @@
   },
   "custom/spotify-song": {
     "exec": "~/.config/waybar/scripts/spotify-song.sh",
-    "interval": 5,
     "format": "{}",
     "tooltip": false,
     "on-click": "playerctl --player=spotify play-pause"
@@ -86,12 +84,6 @@
       ]
     }
   },
-  "custom/battery-icon": {
-    "exec": "~/.config/waybar/scripts/battery-icon.sh",
-    "interval": 30,
-    "format": "{}",
-    "tooltip": false
-  },
   "battery": {
     "bat": "BAT1",
     "adapter": "ACAD",
@@ -105,26 +97,11 @@
     "format-plugged": "{capacity}%",
     "format-full": "100%"
   },
-  "custom/volume-icon": {
-    "exec": "~/.config/waybar/scripts/volume-icon.sh",
-    "interval": 1,
-    "format": "{}",
-    "tooltip": false,
-    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-    "on-click-right": "pavucontrol"
-  },
   "pulseaudio": {
     "format": "{volume}%",
     "format-muted": "muted",
     "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
     "on-click-right": "pavucontrol"
-  },
-  "custom/bluetooth-icon": {
-    "exec": "~/.config/waybar/scripts/bluetooth-icon.sh",
-    "interval": 5,
-    "format": "{}",
-    "tooltip": false,
-    "on-click": "blueman-manager"
   },
   "custom/clock-icon": {
     "format": "",
@@ -155,9 +132,11 @@
   },
   "disk": {
     "interval": 60,
-    "path": "/",
     "format": "{free}",
-    "tooltip-format": "{used} / {total} used"
+    "tooltip-format": "{used} / {total} used",
+    "paths": [
+      "/"
+    ]
   },
   "custom/powermenu": {
     "format": "",
@@ -172,5 +151,46 @@
     "on-click": "pkill wofi || ~/.config/waybar/scripts/nordvpn-menu.sh",
     "on-click-right": "nordvpn disconnect && pkill -RTMIN+8 waybar",
     "signal": 8
+  },
+  "battery#icon": {
+    "bat": "BAT1",
+    "adapter": "ACAD",
+    "interval": 30,
+    "format": "{icon}",
+    "format-charging": "",
+    "format-full": "",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "tooltip": false
+  },
+  "pulseaudio#icon": {
+    "format": "{icon}",
+    "format-muted": "",
+    "format-icons": {
+      "headphone": "",
+      "headset": "",
+      "default": [
+        "",
+        ""
+      ]
+    },
+    "tooltip": false,
+    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "on-click-right": "pavucontrol"
+  },
+  "bluetooth": {
+    "format-on": "󰂯",
+    "format-off": "󰂰",
+    "format-disabled": "󰂰",
+    "format-no-controller": "󰂰",
+    "format-connected": "󰂯 {num_connections}",
+    "tooltip-format-connected": "{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}",
+    "on-click": "blueman-manager"
   }
 }

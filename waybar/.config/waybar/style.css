@@ -117,9 +117,9 @@ window#waybar {
 }
 
 /* ---------- Right-side icon halves (colored, FA font) ---------- */
-#custom-battery-icon,
-#custom-volume-icon,
-#custom-bluetooth-icon,
+#battery.icon,
+#pulseaudio.icon,
+#bluetooth,
 #custom-updates-icon,
 #custom-clock-icon,
 #custom-cpu-icon,
@@ -135,7 +135,7 @@ window#waybar {
 
 /* Bluetooth is a standalone pill (icon + optional connected count). MDI
    glyphs (incl. bluetooth-off with slash) live in Nerd Font, not FA. */
-#custom-bluetooth-icon {
+#bluetooth {
   font-family: "InputMono Nerd Font", "Monocraft";
   padding: 0 12px;
   margin: 6px 3px;
@@ -149,9 +149,9 @@ window#waybar {
 }
 
 /* Accent colors per icon (matches sketchybar palette) */
-#custom-battery-icon   { color: #9ac868; }
-#custom-volume-icon    { color: #6c77bb; }
-#custom-bluetooth-icon { color: #7aa2f7; }
+#battery.icon   { color: #9ac868; }
+#pulseaudio.icon    { color: #6c77bb; }
+#bluetooth { color: #7aa2f7; }
 #custom-updates-icon   { color: #b9c244; }
 #custom-clock-icon     { color: #6d8896; }
 #custom-cpu-icon       { color: #f6768e; }

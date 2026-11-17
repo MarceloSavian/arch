@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
-status=$(playerctl --player=spotify status 2>/dev/null)
-if [ -z "$status" ] || [ "$status" = "Stopped" ]; then
-  exit 0
-fi
-song=$(playerctl --player=spotify metadata title 2>/dev/null)
-[ -z "$song" ] && exit 0
-if [ "${#song}" -gt 20 ]; then
-  song="${song:0:20}..."
-fi
-printf '%s\n' "$song"
+# Event-driven: prints the title (max 20 chars) on every change, empty line hides the module.
+playerctl --player=spotify --follow metadata --format '{{status}}|{{title}}' 2>/dev/null |
+while IFS='|' read -r status song; do
+  if [ -z "$status" ] || [ "$status" = "Stopped" ] || [ -z "$song" ]; then echo; continue; fi
+  [ "${#song}" -gt 20 ] && song="${song:0:20}..."
+  printf '%s\n' "$song"
+done

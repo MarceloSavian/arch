@@ -40,40 +40,19 @@ cd ~/arch
 
 # 2. Install packages (see the table below for what each is for)
 sudo pacman -S --needed \
-    hyprland hyprlock hypridle hyprpaper \
+    hyprland hyprlock hypridle hyprpaper awww swaync \
     waybar wofi kitty yazi \
     sddm qt5-graphicaleffects \
     grim slurp swappy hyprpicker wl-clipboard cliphist \
     brightnessctl playerctl pavucontrol \
     polkit-kde-agent network-manager-applet blueman \
     thunar tesseract jq stow rsync \
-    noto-fonts noto-fonts-emoji ttf-font-awesome ttf-nerd-fonts-symbols
+    noto-fonts noto-fonts-emoji otf-font-awesome ttf-nerd-fonts-symbols \
+    ttf-input-nerd ttf-jetbrains-mono-nerd ttf-material-icons neovim
 
 # AUR (use yay or paru)
-yay -S --needed \
-    awww \
-    ttf-monocraft \
-    ttf-input-nerd \
-    bibata-cursor-theme \
-    swaync \
-    ckb-next
+yay -S --needed otf-monocraft bibata-cursor-theme eww
 
-# 3. Stow the user configs
-stow -v -t ~ hypr waybar wofi kitty yazi gtk shell
-
-# 4. Drop wallpapers in place
-mkdir -p ~/wallpapers && cp wallpapers/wallpapers/*.png ~/wallpapers/
-
-# 5. Install + activate the SDDM theme
-sudo cp -r sddm/cyberpunk-mr /usr/share/sddm/themes/
-sudo chown -R root:root /usr/share/sddm/themes/cyberpunk-mr
-sudo chmod -R a+rX    /usr/share/sddm/themes/cyberpunk-mr
-sudo install -d /etc/sddm.conf.d
-echo -e "[Theme]\nCurrent=cyberpunk-mr" | sudo tee /etc/sddm.conf.d/theme.conf
-
-# 6. Enable services
-sudo systemctl enable sddm
-systemctl --user enable --now hypridle  # optional: idle/lid lock
 ```
 
 Reboot (or `sudo systemctl restart sddm` from a TTY) and you're in.
@@ -121,7 +100,6 @@ Reboot (or `sudo systemctl restart sddm` from a TTY) and you're in.
 | `tesseract` | OCR for `SUPER+O` (screenshot → clipboard text) |
 | `blueman` | Bluetooth tray |
 | `network-manager-applet` | Network tray |
-| `ckb-next` | Corsair keyboard daemon |
 | `bibata-cursor-theme` | Cursor theme |
 
 ### Fonts
@@ -157,8 +135,9 @@ Edit those lines or replace with `hl.monitor({ output = "", mode = "preferred", 
 
 ### NVIDIA env vars
 
-The NVIDIA block in `hypr/.config/hypr/modules/env.lua` is NVIDIA-specific.
-Strip those lines on AMD / Intel.
+Apps render on the integrated GPU by default so a hybrid laptop's NVIDIA
+card can power down. Run games / heavy apps on NVIDIA with `prime-run <app>`
+(package `nvidia-prime`).
 
 ### Hyprland config (Lua)
 

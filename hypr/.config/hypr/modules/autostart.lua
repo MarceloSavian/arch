@@ -8,7 +8,6 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("sh ~/.config/hypr/scripts/rotate-wallpaper.sh")
 
     hl.exec_cmd("waybar")
-    hl.exec_cmd("ckb-next -b")
     hl.exec_cmd("hyprctl setcursor Bibata-Modern-Classic 24")
     hl.exec_cmd("/usr/lib/polkit-kde-authentication-agent-1")
     hl.exec_cmd("blueman-applet")

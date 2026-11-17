@@ -58,9 +58,16 @@ hl.config({
         workspace_back_and_forth = 1,
     },
 
-    misc = {
+    render = {
+        direct_scanout = 2, -- bypass compositing for fullscreen games (lower latency)
+    },
+
+    layers = {
         layers_hog_keyboard_focus = true,
-        focus_on_activate         = true,
+    },
+
+    misc = {
+        focus_on_activate = true,
     },
 })
 

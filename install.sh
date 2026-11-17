@@ -3,7 +3,9 @@
 # Idempotent: safe to re-run. Run as your normal user from anywhere - it calls sudo
 # itself (it will ask for your password, so run it in a real terminal).
 #
-#   ~/arch/install.sh
+#   ~/arch/install.sh            full setup (system + this user)
+#   ~/arch/install.sh --user     per-user setup only (no sudo): dotfiles, defaults.
+#                                Used by add-user.sh for additional accounts.
 #
 set -euo pipefail
 
@@ -11,11 +13,16 @@ REPO="$(cd "$(dirname "$0")" && pwd)"
 BACKUP="$HOME/dotfiles-backup-$(date +%Y%m%d-%H%M%S)"
 HAS_NVIDIA=$(lspci | grep -qi 'nvidia' && echo 1 || echo 0)
 
+MODE=full
+[ "${1:-}" = "--user" ] && MODE=user
+system_only() { [ "$MODE" = full ]; }
+
 step() { printf '\n\033[1;35m==> %s\033[0m\n' "$*"; }
 
 [ "$(id -u)" -ne 0 ] || { echo "Run as your normal user, not root/sudo."; exit 1; }
 
 # ---------------------------------------------------------------------------
+if system_only; then
 step "1/11 Enable multilib (needed for Steam / 32-bit drivers)"
 if ! grep -q '^\[multilib\]' /etc/pacman.conf; then
     sudo sed -i '/^#\[multilib\]$/{s/^#//;n;s/^#//}' /etc/pacman.conf
@@ -66,6 +73,7 @@ step "4/11 AUR packages"
 yay -S --needed --noconfirm \
     otf-monocraft bibata-cursor-theme eww \
     google-chrome spotify nordvpn-bin
+fi  # system_only (steps 1-4)
 
 # ---------------------------------------------------------------------------
 step "5/11 Back up conflicting dotfiles -> $BACKUP"
@@ -91,6 +99,7 @@ mkdir -p "$HOME/wallpapers" "$HOME/Documents/projects" "$HOME/Pictures/Screensho
 cp -n wallpapers/wallpapers/*.png "$HOME/wallpapers/"
 
 # ---------------------------------------------------------------------------
+if system_only; then
 step "7/11 SDDM theme"
 sudo cp -r sddm/cyberpunk-mr /usr/share/sddm/themes/
 sudo chown -R root:root /usr/share/sddm/themes/cyberpunk-mr
@@ -111,7 +120,8 @@ step "9/11 Services"
 sudo systemctl enable sddm bluetooth NetworkManager
 sudo systemctl enable --now nordvpnd
 sudo usermod -aG nordvpn "$USER"   # takes effect after next login
-systemctl --user enable --now pipewire pipewire-pulse wireplumber
+fi  # system_only (steps 7-9)
+systemctl --user enable pipewire pipewire-pulse wireplumber 2>/dev/null || true
 
 # ---------------------------------------------------------------------------
 step "10/11 Desktop defaults"

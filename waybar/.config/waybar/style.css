@@ -120,7 +120,6 @@ window#waybar {
 #battery.icon,
 #pulseaudio.icon,
 #bluetooth,
-#custom-updates-icon,
 #custom-clock-icon,
 #custom-cpu-icon,
 #custom-memory-icon,
@@ -152,7 +151,6 @@ window#waybar {
 #battery.icon   { color: #9ac868; }
 #pulseaudio.icon    { color: #6c77bb; }
 #bluetooth { color: #7aa2f7; }
-#custom-updates-icon   { color: #b9c244; }
 #custom-clock-icon     { color: #6d8896; }
 #custom-cpu-icon       { color: #f6768e; }
 #custom-memory-icon    { color: #4ed2e3; }
@@ -161,8 +159,6 @@ window#waybar {
 /* ---------- Right-side label halves (white text, fused to icon) ---------- */
 #battery,
 #pulseaudio,
-#custom-bluetooth,
-#custom-updates,
 #clock,
 #cpu,
 #memory,

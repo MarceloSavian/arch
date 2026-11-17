@@ -17,7 +17,7 @@ REPO="$(cd "$(dirname "$0")" && pwd)"
 
 step() { printf '\n\033[1;35m==> %s\033[0m\n' "$*"; }
 
-[[ "$NEW" =~ ^[a-z_][a-z0-9_-]*$ ]] || { echo "Username must be lowercase (e.g. gabbie)."; exit 1; }
+[[ "$NEW" =~ ^[a-z_][a-z0-9_-]*$ ]] || { echo "Username must be lowercase (e.g. alice)."; exit 1; }
 
 GROUPS_LIST=wheel
 getent group nordvpn >/dev/null && GROUPS_LIST+=,nordvpn

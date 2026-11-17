@@ -135,7 +135,11 @@ gsettings set org.gnome.desktop.interface cursor-theme Bibata-Modern-Classic
 
 # ---------------------------------------------------------------------------
 step "11/11 Check Hyprland config"
-Hyprland --verify-config -c "$HOME/.config/hypr/hyprland.lua" 2>&1 | sed -n '/parsing result/,$p'
+# Hyprland refuses to run without XDG_RUNTIME_DIR (unset under `sudo -u`, e.g. add-user.sh).
+rt="${XDG_RUNTIME_DIR:-}"; [ -n "$rt" ] || rt=$(mktemp -d)
+XDG_RUNTIME_DIR="$rt" Hyprland --verify-config -c "$HOME/.config/hypr/hyprland.lua" 2>&1 \
+    | sed -n '/parsing result/,$p' || echo "WARNING: Hyprland config check failed - run it again from a desktop session."
+[ "$rt" = "${XDG_RUNTIME_DIR:-}" ] || rm -rf "$rt"
 
 cat <<'EOF'
 

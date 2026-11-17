@@ -117,6 +117,7 @@ sudo install -m644 "$REPO/system/xorg.conf.d/10-sddm-greeter.conf" /etc/X11/xorg
 step "9/11 Services"
 sudo systemctl enable sddm bluetooth NetworkManager
 sudo systemctl enable --now nordvpnd
+sudo systemctl --global enable hypridle   # every user (lock before sleep, restore workspace)
 sudo usermod -aG nordvpn "$USER"   # takes effect after next login
 fi  # system_only (steps 7-9)
 systemctl --user enable pipewire pipewire-pulse wireplumber hypridle 2>/dev/null || true

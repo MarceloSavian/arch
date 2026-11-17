@@ -9,6 +9,38 @@ Rectangle {
 
     TextConstants { id: textConstants }
 
+    // ---------- Users (SDDM's userModel) ----------
+    // A Repeater (not a ListView) so every delegate exists and itemAt() works.
+    property int userIdx: 0
+    Repeater {
+        id: users
+        model: userModel
+        delegate: Item {
+            visible: false
+            property string uName: model.name
+            property string uReal: model.realName
+            property string uIcon: model.icon
+        }
+    }
+    readonly property var cur: users.count > 0 ? users.itemAt(Math.min(userIdx, users.count - 1)) : null
+    readonly property string currentUser: cur ? cur.uName : config.DefaultUser
+    readonly property string currentLabel: cur ? (cur.uReal !== "" ? cur.uReal : cur.uName) : config.DefaultUser
+
+    function pickInitialUser() {
+        // last user to log in > DefaultUser > first user
+        var want = (userModel.lastUser && userModel.lastUser !== "") ? userModel.lastUser : config.DefaultUser;
+        for (var i = 0; i < users.count; i++)
+            if (users.itemAt(i).uName === want) { userIdx = i; return; }
+        userIdx = 0;
+    }
+    function cycleUser(step) {
+        if (users.count < 2) return;
+        userIdx = (userIdx + step + users.count) % users.count;
+        passwordField.text = "";
+        errorText.text = "";
+        passwordField.forceActiveFocus();
+    }
+
     // ---------- Background ----------
     Image {
         id: bg
@@ -111,7 +143,9 @@ Rectangle {
                 Image {
                     anchors.fill: parent
                     anchors.margins: 4
-                    source: config.Avatar
+                    // configured photo for DefaultUser; other users get their own face icon
+                    source: (root.cur && root.cur.uName !== config.DefaultUser && root.cur.uIcon !== "")
+                            ? root.cur.uIcon : config.Avatar
                     fillMode: Image.PreserveAspectCrop
                     smooth: true
                     asynchronous: true
@@ -119,22 +153,42 @@ Rectangle {
                 }
             }
 
-            Text {
-                id: usernameText
-                text: {
-                    if (userModel.lastUser && userModel.lastUser !== "")
-                        return userModel.lastUser;
-                    return config.DefaultUser;
-                }
-                color: config.TextColor
-                font.family: config.FontFamily
-                font.pixelSize: 22
-                font.bold: true
+            Row {
+                id: userRow
                 anchors.horizontalCenter: parent.horizontalCenter
+                spacing: 14
+
+                Text {
+                    text: "‹"
+                    visible: users.count > 1
+                    color: arrowL.containsMouse ? config.AccentColor : config.MutedTextColor
+                    font.family: config.FontFamily
+                    font.pixelSize: 26
+                    anchors.verticalCenter: parent.verticalCenter
+                    MouseArea { id: arrowL; anchors.fill: parent; anchors.margins: -8; hoverEnabled: true; onClicked: root.cycleUser(-1) }
+                }
+                Text {
+                    id: usernameText
+                    text: root.currentLabel
+                    color: config.TextColor
+                    font.family: config.FontFamily
+                    font.pixelSize: 22
+                    font.bold: true
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+                Text {
+                    text: "›"
+                    visible: users.count > 1
+                    color: arrowR.containsMouse ? config.AccentColor : config.MutedTextColor
+                    font.family: config.FontFamily
+                    font.pixelSize: 26
+                    anchors.verticalCenter: parent.verticalCenter
+                    MouseArea { id: arrowR; anchors.fill: parent; anchors.margins: -8; hoverEnabled: true; onClicked: root.cycleUser(1) }
+                }
             }
 
             Text {
-                text: "Enter password to unlock"
+                text: users.count > 1 ? "Enter password  ·  ↑ ↓ to switch user" : "Enter password to unlock"
                 color: config.MutedTextColor
                 font.family: config.FontFamily
                 font.pixelSize: 12
@@ -158,6 +212,8 @@ Rectangle {
                 tooltipText: textConstants.capslockWarning
                 focus: true
 
+                Keys.onUpPressed: root.cycleUser(-1)
+                Keys.onDownPressed: root.cycleUser(1)
                 Keys.onReturnPressed: doLogin()
                 Keys.onEnterPressed: doLogin()
             }
@@ -222,7 +278,7 @@ Rectangle {
     // ---------- Login plumbing ----------
     function doLogin() {
         errorText.text = "";
-        sddm.login(usernameText.text, passwordField.text, sessionBox.index);
+        sddm.login(root.currentUser, passwordField.text, sessionBox.index);
     }
 
     Connections {
@@ -235,5 +291,8 @@ Rectangle {
         onLoginSucceeded: {}
     }
 
-    Component.onCompleted: passwordField.forceActiveFocus()
+    Component.onCompleted: {
+        pickInitialUser();
+        passwordField.forceActiveFocus();
+    }
 }

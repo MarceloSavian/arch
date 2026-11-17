@@ -54,6 +54,23 @@ sudo pacman -S --needed \
 # AUR (use yay or paru)
 yay -S --needed otf-monocraft bibata-cursor-theme eww
 
+# 3. Stow the user configs
+stow -v -t ~ hypr waybar wofi kitty yazi gtk shell
+stow -v --no-folding -t ~ nvidia   # NVIDIA launchers (hybrid-GPU laptops only)
+
+# 4. Drop wallpapers in place
+mkdir -p ~/wallpapers && cp wallpapers/wallpapers/*.png ~/wallpapers/
+
+# 5. Install + activate the SDDM theme
+sudo cp -r sddm/cyberpunk-mr /usr/share/sddm/themes/
+sudo chown -R root:root /usr/share/sddm/themes/cyberpunk-mr
+sudo chmod -R a+rX    /usr/share/sddm/themes/cyberpunk-mr
+sudo install -d /etc/sddm.conf.d
+echo -e "[Theme]\nCurrent=cyberpunk-mr" | sudo tee /etc/sddm.conf.d/theme.conf
+
+# 6. Enable services
+sudo systemctl enable sddm
+sudo systemctl enable --now bluetooth
 ```
 
 Reboot (or `sudo systemctl restart sddm` from a TTY) and you're in.

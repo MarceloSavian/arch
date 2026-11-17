@@ -24,54 +24,38 @@ layout: each top-level dir is a "package" whose contents mirror your `$HOME`.
 | `wofi/` | Launcher + powermenu | `~/.config/wofi/` |
 | `kitty/` | Terminal config | `~/.config/kitty/` |
 | `yazi/` | File manager | `~/.config/yazi/` |
-| `gtk/` | GTK 2 theme | `~/.gtkrc-2.0` etc. |
+| `gtk/` | GTK 2/3/4 dark theme + cursor settings | `~/.gtkrc-2.0`, `~/.config/gtk-{3,4}.0/` (`--no-folding`) |
 | `shell/` | `.bashrc`, `.zshrc`, `.xprofile`, etc. | `$HOME` |
 | `nvidia/` | "Google Chrome (NVIDIA)" / "Steam (NVIDIA)" launchers + `chrome-nvidia` script | `~/.local/share/applications/`, `~/.local/bin/` |
 | `wallpapers/` | Wallpaper images (rotated by `awww-daemon`) | `~/wallpapers/` |
 | `sddm/` | Custom SDDM login theme — **system-level**, not stowed | see `sddm/README.md` |
+| `system/` | System files copied by `install.sh` (e.g. Xorg tweak for hybrid GPUs) | `/etc/...` |
 
 ---
 
 ## Quick install
 
 ```bash
-# 1. Clone
 git clone https://github.com/MarceloSavian/arch.git ~/arch
-cd ~/arch
-
-# 2. Install packages (see the table below for what each is for)
-sudo pacman -S --needed \
-    hyprland hyprlock hypridle hyprpaper awww swaync \
-    waybar wofi kitty yazi \
-    sddm qt5-graphicaleffects \
-    grim slurp swappy hyprpicker wl-clipboard cliphist \
-    brightnessctl playerctl pavucontrol \
-    polkit-kde-agent network-manager-applet blueman \
-    thunar tesseract jq stow rsync \
-    noto-fonts noto-fonts-emoji otf-font-awesome ttf-nerd-fonts-symbols \
-    ttf-input-nerd ttf-jetbrains-mono-nerd ttf-material-icons neovim
-
-# AUR (use yay or paru)
-yay -S --needed otf-monocraft bibata-cursor-theme eww
-
-# 3. Stow the user configs
-stow -v -t ~ hypr waybar wofi kitty yazi gtk shell
-stow -v --no-folding -t ~ nvidia   # NVIDIA launchers (hybrid-GPU laptops only)
-
-# 4. Drop wallpapers in place
-mkdir -p ~/wallpapers && cp wallpapers/wallpapers/*.png ~/wallpapers/
-
-# 5. Install + activate the SDDM theme
-sudo cp -r sddm/cyberpunk-mr /usr/share/sddm/themes/
-sudo chown -R root:root /usr/share/sddm/themes/cyberpunk-mr
-sudo chmod -R a+rX    /usr/share/sddm/themes/cyberpunk-mr
-sudo install -d /etc/sddm.conf.d
-echo -e "[Theme]\nCurrent=cyberpunk-mr" | sudo tee /etc/sddm.conf.d/theme.conf
-
-# 6. Enable services
-sudo systemctl enable sddm
-sudo systemctl enable --now bluetooth
+~/arch/install.sh
 ```
+
+Run it in a real terminal as your normal user (it asks for your sudo password).
+It is idempotent, so re-running it after a `git pull` is safe. It:
+
+1. enables **multilib** (Steam / 32-bit drivers)
+2. installs every package below (plus NVIDIA drivers when an NVIDIA GPU is detected)
+3. bootstraps **yay** and installs the AUR packages
+4. backs up conflicting dotfiles to `~/dotfiles-backup-<timestamp>/` and stows the packages
+5. installs the SDDM theme and the hybrid-GPU Xorg tweak
+6. enables services: sddm, bluetooth, NetworkManager, nordvpnd, PipeWire (user)
+7. sets defaults: Chrome as browser, Thunar for folders, dark GTK theme
+8. validates the Hyprland config
+
+`install.sh` is the source of truth for the package list.
+
+After it finishes: reboot, then `nordvpn login` and (to push this repo)
+`gh auth login && gh auth setup-git`.
 
 Reboot (or `sudo systemctl restart sddm` from a TTY) and you're in.
 
@@ -84,7 +68,7 @@ Reboot (or `sudo systemctl restart sddm` from a TTY) and you're in.
 | Package | Purpose |
 |---|---|
 | `hyprland` | Wayland compositor |
-| `hyprlock` | Lock screen (bound to `SUPER+SHIFT+Q`) |
+| `hyprlock` | Lock screen (bound to `CTRL+Q`) |
 | `hypridle` | Idle daemon — auto-lock on inactivity / lid close |
 | `awww` | Wallpaper daemon (`awww-daemon` rotates `~/wallpapers/` every 10 min) |
 
@@ -98,6 +82,24 @@ Reboot (or `sudo systemctl restart sddm` from a TTY) and you're in.
 | `kitty` | Terminal |
 | `yazi` | TUI file manager (bound to `SUPER+E`) |
 
+### Audio
+
+| Package | Purpose |
+|---|---|
+| `pipewire` + `wireplumber` | Sound server + session manager (no sound without both) |
+| `pipewire-pulse` | PulseAudio API: `pactl`, waybar volume, pavucontrol, Chrome |
+| `pipewire-alsa` | Apps that talk to ALSA directly |
+
+### Apps
+
+| Package | Purpose |
+|---|---|
+| `google-chrome` (AUR) | Default browser |
+| `spotify` (AUR) | Music; the waybar media pills control it |
+| `nordvpn-bin` (AUR) | VPN; waybar pill + wofi connect menu (`nordvpnd` service, `nordvpn` group) |
+| `steam` (multilib) | Games; use the **Steam (NVIDIA)** launcher on hybrid laptops |
+| `github-cli` | `gh auth` for pushing this repo |
+
 ### Login
 
 | Package | Purpose |
@@ -109,14 +111,14 @@ Reboot (or `sudo systemctl restart sddm` from a TTY) and you're in.
 
 | Package | What it's for |
 |---|---|
-| `grim` + `slurp` + `swappy` + `hyprpicker` | Screenshots (hyprpicker freezes the screen) (`SUPER+PRINT`, `CTRL+SHIFT+4`) |
+| `grim` + `slurp` + `swappy` + `hyprpicker` | Screenshots (hyprpicker freezes the screen) |
 | `wl-clipboard` + `cliphist` | Clipboard history |
 | `brightnessctl` | Brightness keys |
 | `playerctl` | Media keys |
 | `pavucontrol` | GUI audio mixer |
 | `polkit-kde-agent` | Auth prompts (sudo dialogs) |
 | `tesseract` | OCR for `SUPER+O` (screenshot → clipboard text) |
-| `blueman` | Bluetooth tray |
+| `bluez` + `bluez-utils` + `blueman` | Bluetooth stack, `bluetoothctl`, tray/manager |
 | `network-manager-applet` | Network tray |
 | `bibata-cursor-theme` | Cursor theme |
 
@@ -124,10 +126,11 @@ Reboot (or `sudo systemctl restart sddm` from a TTY) and you're in.
 
 The whole UI assumes:
 
-- `ttf-monocraft` — primary UI font
+- `otf-monocraft` (AUR) — primary UI font
 - `ttf-input-nerd` (Nerd Font variant of Input Mono) — fallback + glyphs
-- `ttf-font-awesome` — waybar icon glyphs
-- Material Icons + Material Design Icons — used by some pill modules
+- `ttf-jetbrains-mono-nerd` — kitty
+- `otf-font-awesome` — waybar icon glyphs
+- `ttf-material-icons` — spotify / memory pills
 
 If a font is missing, waybar / wofi will fall back silently but icons may render as tofu.
 
@@ -183,20 +186,16 @@ Hyprland --verify-config -c ~/.config/hypr/hyprland.lua
 
 ## Reproducing this setup with an AI
 
-Hand this README + the `~/arch/` repo URL to an AI agent and tell it:
-
-> "Reproduce the setup described in `https://github.com/MarceloSavian/arch`
-> on a fresh Arch install. Use the package list and install commands in
-> `README.md`. Stow the user configs, install the SDDM theme, enable sddm.
-> Don't push anything; show me each command before running it."
-
-The package list, stow commands, and SDDM install steps above are written
-to be copy-pasteable. The agent should be able to walk a clean machine to
-a working state without further input beyond confirming sudo commands.
+Point the agent at [`AGENTS.md`](AGENTS.md): it has the hardware facts,
+conventions and the pitfalls already hit on this machine (things that crash
+Hyprland, commands that kill the user's apps, renamed packages, ...).
 
 ---
 
 ## Keybinds cheatsheet
+
+> **Left Alt and Left Ctrl are swapped** (`ctrl:swap_lalt_lctl`, Mac-style ⌘C/⌘V).
+> Binds written as `CTRL` below are pressed with the physical **Left Alt** key.
 
 | Keys | Action |
 |---|---|
@@ -209,9 +208,14 @@ a working state without further input beyond confirming sudo commands.
 | `SUPER+W` | Workspace overview (eww) |
 | `SUPER+SHIFT+W` | Shuffle wallpaper |
 | `SUPER+O` | OCR screenshot region → clipboard |
-| `SUPER+PRINT` | Freeze + screenshot full screen |
-| `PRINT` | Freeze + screenshot region |
+| `SUPER+PRINT` | Freeze screen, select region → save to `~/Pictures/screenshots/` |
+| `PRINT` | Freeze screen, select region → clipboard |
+| `CTRL+PRINT` | Select region → annotate in swappy |
 | `CTRL+SHIFT+4` | Quick region screenshot to `~/Pictures/Screenshots/` |
 | `SUPER+SHIFT+R` | Reload Hyprland |
+| `SUPER+SHIFT+H` | Toggle gaps + rounding |
+| `SUPER+R` | Resize mode (arrows, `ESC` to exit) |
+| `SUPER+V` | Clipboard history |
+| `SUPER+N` | Notification center |
 | `SUPER+1..9,0` | Jump to workspace |
 | `SUPER+SHIFT+1..9,0` | Move window to workspace |

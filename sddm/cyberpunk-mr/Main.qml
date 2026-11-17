@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import SddmComponents 2.0
+import QtGraphicalEffects 1.0
 
 Rectangle {
     id: root
@@ -50,22 +51,21 @@ Rectangle {
         smooth: true
         asynchronous: true
         cache: true
-        visible: status === Image.Ready
+        visible: false   // drawn through the blur below
+    }
+
+    // Blur like hyprlock's background (blur_passes=2, blur_size=6)
+    FastBlur {
+        anchors.fill: bg
+        source: bg
+        radius: parseInt(config.BlurRadius)
+        visible: bg.status === Image.Ready
     }
 
     Rectangle {
         anchors.fill: parent
         color: "#000000"
         opacity: parseFloat(config.DimOpacity)
-    }
-
-    Rectangle {
-        anchors.fill: parent
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: "#80000000" }
-            GradientStop { position: 0.45; color: "transparent" }
-            GradientStop { position: 1.0; color: "#80000000" }
-        }
     }
 
     // ---------- Top-right clock ----------

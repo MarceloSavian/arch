@@ -97,6 +97,15 @@ stow -R -v --no-folding -t "$HOME" gtk
 [ "$HAS_NVIDIA" = 1 ] && stow -R -v --no-folding -t "$HOME" nvidia
 mkdir -p "$HOME/wallpapers" "$HOME/Documents/projects" "$HOME/Pictures/Screenshots"
 cp -n wallpapers/wallpapers/*.png "$HOME/wallpapers/"
+# ~/.face = avatar on the lock screen (hyprlock). The SDDM DefaultUser gets the theme
+# photo; everyone else the default face - the same split the SDDM theme uses.
+if [ ! -e "$HOME/.face" ]; then
+    if [ "$(id -un)" = "$(sed -n 's/^DefaultUser=//p' sddm/cyberpunk-mr/theme.conf)" ]; then
+        ln -s "$REPO/sddm/cyberpunk-mr/Backgrounds/avatar.png" "$HOME/.face"
+    else
+        ln -s /usr/share/sddm/faces/.face.icon "$HOME/.face"
+    fi
+fi
 
 # ---------------------------------------------------------------------------
 if system_only; then

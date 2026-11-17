@@ -112,6 +112,12 @@ explicitly or pacman prompts for a provider.
 - Logging back in as the same user: SDDM `ReuseSession=true` (default) sends logind
   `UnlockSession` + `ActivateSession`; hypridle `unlock_cmd` runs `scripts/unlock.sh`,
   which refocuses the workspace saved by `lock.sh`.
+- **XWayland socket gets deleted by the lock.** The lock screen is a temporary SDDM X
+  server; when it exits (~5s after you log back in) `/tmp/.X11-unix/X<n>` of the
+  session's XWayland disappears. Running X11 apps survive, new ones (Steam!) fail with
+  "Can't open display" / "Check your DISPLAY". Hyprland also listens on `X<n>_`, so
+  `unlock.sh` re-links `X<n> -> X<n>_` for 20s after unlock. Manual fix:
+  `ln -s /tmp/.X11-unix/X1_ /tmp/.X11-unix/X1`.
 - Logs: `$XDG_RUNTIME_DIR/lock.log`, `journalctl --user -u hypridle`, `journalctl -t sddm`.
 
 ## Known open items

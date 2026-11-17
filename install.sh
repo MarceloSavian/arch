@@ -32,7 +32,7 @@ fi
 step "2/11 Official packages"
 PKGS=(
     # compositor + desktop
-    hyprland hyprlock hypridle hyprpaper hyprpicker awww swaync
+    hyprland hypridle hyprpaper hyprpicker awww swaync
     waybar wofi kitty yazi thunar neovim
     # login
     sddm qt5-graphicaleffects
@@ -97,15 +97,6 @@ stow -R -v --no-folding -t "$HOME" gtk
 [ "$HAS_NVIDIA" = 1 ] && stow -R -v --no-folding -t "$HOME" nvidia
 mkdir -p "$HOME/wallpapers" "$HOME/Documents/projects" "$HOME/Pictures/Screenshots"
 cp -n wallpapers/wallpapers/*.png "$HOME/wallpapers/"
-# ~/.face = avatar on the lock screen (hyprlock). The SDDM DefaultUser gets the theme
-# photo; everyone else the default face - the same split the SDDM theme uses.
-if [ ! -e "$HOME/.face" ]; then
-    if [ "$(id -un)" = "$(sed -n 's/^DefaultUser=//p' sddm/cyberpunk-mr/theme.conf)" ]; then
-        ln -s "$REPO/sddm/cyberpunk-mr/Backgrounds/avatar.png" "$HOME/.face"
-    else
-        ln -s /usr/share/sddm/faces/.face.icon "$HOME/.face"
-    fi
-fi
 
 # ---------------------------------------------------------------------------
 if system_only; then
@@ -117,12 +108,10 @@ sudo install -d /etc/sddm.conf.d
 printf '[Theme]\nCurrent=cyberpunk-mr\n' | sudo tee /etc/sddm.conf.d/theme.conf >/dev/null
 
 # ---------------------------------------------------------------------------
-step "8/11 Hybrid-GPU system tweaks"
-if [ "$HAS_NVIDIA" = 1 ]; then
-    # SDDM's greeter Xorg otherwise grabs the NVIDIA GPU and keeps it awake.
-    sudo install -d /etc/X11/xorg.conf.d
-    sudo install -m644 "$REPO/system/xorg.conf.d/10-no-gpu-hotplug.conf" /etc/X11/xorg.conf.d/
-fi
+step "8/11 Login-screen Xorg settings (no VT switching; iGPU only)"
+sudo install -d /etc/X11/xorg.conf.d
+sudo rm -f /etc/X11/xorg.conf.d/10-no-gpu-hotplug.conf   # old name
+sudo install -m644 "$REPO/system/xorg.conf.d/10-sddm-greeter.conf" /etc/X11/xorg.conf.d/
 
 # ---------------------------------------------------------------------------
 step "9/11 Services"
@@ -130,7 +119,7 @@ sudo systemctl enable sddm bluetooth NetworkManager
 sudo systemctl enable --now nordvpnd
 sudo usermod -aG nordvpn "$USER"   # takes effect after next login
 fi  # system_only (steps 7-9)
-systemctl --user enable pipewire pipewire-pulse wireplumber 2>/dev/null || true
+systemctl --user enable pipewire pipewire-pulse wireplumber hypridle 2>/dev/null || true
 
 # ---------------------------------------------------------------------------
 step "10/11 Desktop defaults"

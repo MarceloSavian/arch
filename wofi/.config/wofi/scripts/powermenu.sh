@@ -5,12 +5,12 @@ SHUTDOWN=$''
 REBOOT=$''
 SUSPEND=$''
 LOGOUT=$''
-SWITCH=$''
+LOCK=$''
 
 entries="$SHUTDOWN Shutdown
 $REBOOT Reboot
 $SUSPEND Suspend
-$SWITCH Switch user
+$LOCK Lock
 $LOGOUT Logout"
 
 selected=$(echo -e "$entries" | wofi \
@@ -26,6 +26,6 @@ case $selected in
   shutdown) exec systemctl poweroff -i ;;
   reboot)   exec systemctl reboot ;;
   suspend)  exec systemctl suspend ;;
-  switch)   exec ~/.config/hypr/scripts/switch-user.sh ;;
+  lock)     exec ~/.config/hypr/scripts/lock.sh ;;
   logout)   command -v hyprshutdown >/dev/null && exec hyprshutdown || exec hyprctl dispatch 'hl.dsp.exit()' ;;
 esac

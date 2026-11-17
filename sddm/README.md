@@ -7,7 +7,8 @@ clock, bottom power buttons, bottom-left session selector.
 
 Built against SDDM 0.21 (Qt5 + `SddmComponents 2.0`).
 
-Companion lock screen lives in `hypr/.config/hypr/hyprlock.conf` and is bound to `CTRL+Q`.
+This is also the lock screen: `CTRL+Q` (and suspend) switch to it while your session keeps running
+(`hypr/.config/hypr/scripts/lock.sh`).
 
 ## Install
 

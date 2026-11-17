@@ -4,7 +4,7 @@ hl.config({
         kb_layout          = "us",
         kb_variant         = "",
         kb_model           = "",
-        kb_options         = "ctrl:swap_lalt_lctl", -- Left Alt acts as Ctrl (Mac-style Cmd+C/V), Left Ctrl acts as Alt
+        kb_options         = "ctrl:swap_lalt_lctl,srvrkeys:none", -- Left Alt acts as Ctrl (Mac-style Cmd+C/V), Left Ctrl acts as Alt
         kb_rules           = "",
         numlock_by_default = true,
         follow_mouse       = 1,

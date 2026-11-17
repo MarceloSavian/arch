@@ -1,7 +1,7 @@
 # Arch Linux Dotfiles
 
 Hyprland (Wayland) setup with a unified dark neon palette across waybar, wofi,
-kitty, hyprlock, and a custom SDDM theme. Tokyo-Night-ish surfaces, cyberpunk
+kitty and a custom SDDM theme (which is also the lock screen). Tokyo-Night-ish surfaces, cyberpunk
 pink/purple accents, Monocraft + Nerd Font typography.
 
 ![Desktop](screenshots/desktop.png)
@@ -19,7 +19,7 @@ layout: each top-level dir is a "package" whose contents mirror your `$HOME`.
 
 | Package | What it ships | Stowed to |
 |---|---|---|
-| `hypr/` | Hyprland config, hyprlock config, helper scripts | `~/.config/hypr/` |
+| `hypr/` | Hyprland config, hypridle config, helper scripts | `~/.config/hypr/` |
 | `waybar/` | Bar config, CSS, scripts | `~/.config/waybar/` |
 | `wofi/` | Launcher + powermenu | `~/.config/wofi/` |
 | `kitty/` | Terminal config | `~/.config/kitty/` |
@@ -68,8 +68,7 @@ Reboot (or `sudo systemctl restart sddm` from a TTY) and you're in.
 | Package | Purpose |
 |---|---|
 | `hyprland` | Wayland compositor |
-| `hyprlock` | Lock screen (bound to `CTRL+Q`) |
-| `hypridle` | Idle daemon — auto-lock on inactivity / lid close |
+| `hypridle` | Lock/unlock events: locks before sleep, restores your workspace when you log back in |
 | `awww` | Wallpaper daemon (`awww-daemon` rotates `~/wallpapers/` every 10 min) |
 
 ### Bar / launchers / shell
@@ -201,7 +200,7 @@ Hyprland, commands that kill the user's apps, renamed packages, ...).
 |---|---|
 | `SUPER+RETURN` | Open kitty |
 | `SUPER+Q` | Close window |
-| `CTRL+Q` | Lock screen (hyprlock) |
+| `CTRL+Q` | Lock — goes to the same SDDM login screen as at boot (↑↓ picks a user). Power menu → Lock and suspend lead there too. |
 | `SUPER+D` | App launcher (wofi) |
 | `SUPER+B` | Power menu |
 | `SUPER+E` | File manager (yazi in kitty) |

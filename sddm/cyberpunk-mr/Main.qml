@@ -54,7 +54,7 @@ Rectangle {
         visible: false   // drawn through the blur below
     }
 
-    // Blur like hyprlock's background (blur_passes=2, blur_size=6)
+    // Blurred background
     FastBlur {
         anchors.fill: bg
         source: bg

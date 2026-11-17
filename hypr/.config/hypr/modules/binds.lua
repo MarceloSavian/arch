@@ -35,7 +35,7 @@ hl.bind(key("mouse_up"),   hl.dsp.focus({ workspace = "e+1" }))
 -- Main binds
 hl.bind(key("return"),      exec("kitty"))
 hl.bind(key("Q"),           hl.dsp.window.close())
-hl.bind("CTRL + Q",         exec("hyprlock"))
+hl.bind("CTRL + Q",         exec(scripts .. "lock.sh")) -- THE lock: SDDM login screen (same as boot), any user
 hl.bind(key("E"),           exec("kitty --hold -e yazi"))
 hl.bind(key("G"),           hl.dsp.group.toggle())
 hl.bind(key("SHIFT + G"),   hl.dsp.window.move({ out_of_group = true }))

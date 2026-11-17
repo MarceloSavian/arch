@@ -96,7 +96,25 @@ explicitly or pacman prompts for a provider.
   `pulseaudio#icon`); CSS targets them as `#battery.icon` / `#pulseaudio.icon`.
 - Check after edits: run waybar with stderr to a file and look for warnings.
 
+## Lock screen = the SDDM login screen (one lock for everything, no hyprlock)
+
+- Every lock ends on the SDDM login screen (same as boot, with the user picker):
+  CTRL+Q, power menu → Lock, and suspend/lid (hypridle `before_sleep_cmd` →
+  `loginctl lock-session` → `lock_cmd`). All of them run `scripts/lock.sh`, which calls
+  SDDM `Seat0.SwitchToGreeter`. The user explicitly wants exactly ONE lock screen —
+  **don't reintroduce hyprlock** (it was removed; it showed up as a second lock screen
+  and its unlock delay left the user on the wrong workspace).
+- The session keeps running **unlocked** on VT1 behind the login screen. That is only
+  safe because VT switching is disabled everywhere:
+  - Hyprland: xkb `srvrkeys:none` in `modules/input.lua` (no Ctrl+Alt+F-keys keysyms)
+  - SDDM's Xorg: `DontVTSwitch` in `system/xorg.conf.d/10-sddm-greeter.conf`
+  Never remove either. Recovery if stuck: SSH in, or log in on the SDDM screen.
+- Logging back in as the same user: SDDM `ReuseSession=true` (default) sends logind
+  `UnlockSession` + `ActivateSession`; hypridle `unlock_cmd` runs `scripts/unlock.sh`,
+  which refocuses the workspace saved by `lock.sh`.
+- Logs: `$XDG_RUNTIME_DIR/lock.log`, `journalctl --user -u hypridle`, `journalctl -t sddm`.
+
 ## Known open items
 
 - `SUPER+W` runs `eww open overview` but no eww config exists yet.
-- No `hypridle.conf` yet, so there is no automatic idle/lid lock (CTRL+Q locks manually).
+- hypridle has no idle timeouts (no auto-lock on inactivity) — only lock/unlock/sleep handling.

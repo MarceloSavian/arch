@@ -1,0 +1,10 @@
+#!/bin/sh
+# Launch Google Chrome on the NVIDIA dGPU (PRIME render offload).
+# Chrome must run via XWayland (--ozone-platform=x11): on native Wayland it either
+# stays on the iGPU or (with --render-node-override) crashes Hyprland.
+# Chrome is single-instance per profile, so it must not already be running.
+if pgrep -x chrome >/dev/null; then
+    notify-send -i google-chrome "Chrome (NVIDIA)" "Chrome is already running on the integrated GPU. Close it first, then launch Chrome (NVIDIA) again."
+    exit 1
+fi
+exec prime-run google-chrome-stable --ozone-platform=x11 "$@"

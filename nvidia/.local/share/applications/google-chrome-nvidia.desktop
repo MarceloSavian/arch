@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Google Chrome (NVIDIA)
+GenericName=Web Browser
+Comment=Google Chrome rendered on the NVIDIA GPU
+Exec=sh -c "exec \\"\\$HOME/.local/bin/chrome-nvidia\\" \\"\\$@\\"" chrome-nvidia %U
+TryExec=google-chrome-stable
+Icon=google-chrome
+Terminal=false
+Categories=Network;WebBrowser;
+StartupWMClass=Google-chrome

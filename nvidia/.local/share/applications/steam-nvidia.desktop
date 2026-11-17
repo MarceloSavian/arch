@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Steam (NVIDIA)
+Comment=Steam on the NVIDIA GPU - every game launched from it inherits this
+Exec=prime-run steam %U
+TryExec=steam
+Icon=steam
+Terminal=false
+Categories=Game;
+PrefersNonDefaultGPU=true

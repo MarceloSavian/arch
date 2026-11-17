@@ -26,6 +26,7 @@ layout: each top-level dir is a "package" whose contents mirror your `$HOME`.
 | `yazi/` | File manager | `~/.config/yazi/` |
 | `gtk/` | GTK 2 theme | `~/.gtkrc-2.0` etc. |
 | `shell/` | `.bashrc`, `.zshrc`, `.xprofile`, etc. | `$HOME` |
+| `nvidia/` | "Google Chrome (NVIDIA)" / "Steam (NVIDIA)" launchers + `chrome-nvidia` script | `~/.local/share/applications/`, `~/.local/bin/` |
 | `wallpapers/` | Wallpaper images (rotated by `awww-daemon`) | `~/wallpapers/` |
 | `sddm/` | Custom SDDM login theme — **system-level**, not stowed | see `sddm/README.md` |
 
@@ -138,6 +139,18 @@ Edit those lines or replace with `hl.monitor({ output = "", mode = "preferred", 
 Apps render on the integrated GPU by default so a hybrid laptop's NVIDIA
 card can power down. Run games / heavy apps on NVIDIA with `prime-run <app>`
 (package `nvidia-prime`).
+
+The `nvidia/` package adds launcher entries for wofi (SUPER+D):
+
+- **Google Chrome (NVIDIA)** runs `prime-run google-chrome-stable --ozone-platform=x11`.
+  Chrome has to go through XWayland: on native Wayland it stays on the iGPU, and
+  forcing it (`--render-node-override`) crashes Hyprland. Chrome is single-instance,
+  so close the normal Chrome first (the launcher tells you if it's running).
+- **Steam (NVIDIA)** runs `prime-run steam`; every game launched from it inherits
+  the NVIDIA offload. Hidden until Steam is installed.
+
+Note: `nvidia-smi` does not list Chrome's sandboxed GPU process. To verify, open
+`chrome://gpu` and check the GL_RENDERER line.
 
 ### Hyprland config (Lua)
 

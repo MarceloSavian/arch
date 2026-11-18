@@ -61,6 +61,10 @@ sudo pacman -Syu --needed --noconfirm "${PKGS[@]}"
 
 # ---------------------------------------------------------------------------
 step "3/11 yay (AUR helper)"
+# Don't build/install -debug packages for AUR builds (makepkg default).
+mkdir -p "$HOME/.config/pacman"
+grep -qs '!debug' "$HOME/.config/pacman/makepkg.conf" || \
+    echo 'OPTIONS+=(!debug)' >> "$HOME/.config/pacman/makepkg.conf"
 if ! command -v yay >/dev/null; then
     tmp=$(mktemp -d)
     git clone https://aur.archlinux.org/yay-bin.git "$tmp/yay-bin"

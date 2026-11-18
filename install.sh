@@ -32,7 +32,7 @@ fi
 step "2/11 Official packages"
 PKGS=(
     # compositor + desktop
-    hyprland hypridle hyprpaper hyprpicker awww swaync
+    hyprland hypridle hyprpicker awww swaync
     waybar wofi kitty yazi thunar neovim
     # login
     sddm qt5-graphicaleffects
@@ -71,7 +71,7 @@ fi
 # ---------------------------------------------------------------------------
 step "4/11 AUR packages"
 yay -S --needed --noconfirm \
-    otf-monocraft bibata-cursor-theme eww \
+    otf-monocraft bibata-cursor-theme \
     google-chrome spotify nordvpn-bin
 fi  # system_only (steps 1-4)
 
@@ -89,6 +89,9 @@ done
 # ---------------------------------------------------------------------------
 step "6/11 Stow user configs"
 cd "$REPO"
+# Drop broken links left by files that were removed from the repo (only links that
+# point into this repo; e.g. an old ~/.zshrc -> arch/shell/.zshrc).
+find "$HOME" -maxdepth 5 -xtype l -lname "*$(basename "$REPO")/*" -print -delete 2>/dev/null || true
 # Pre-create dirs that apps also write into, so stow links files, not the dir.
 mkdir -p "$HOME/.config/hypr" "$HOME/.config/kitty" "$HOME/.config/gtk-3.0" \
          "$HOME/.config/gtk-4.0" "$HOME/.local/bin" "$HOME/.local/share/applications"

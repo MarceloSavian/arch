@@ -6,7 +6,6 @@ Drop screenshots here with these exact names so the top-level README references 
 |---|---|
 | `desktop.png` | Hyprland desktop with waybar visible, ideally over the cyberpunk wallpaper |
 | `login.png` | SDDM login — capture from `sddm-greeter --test-mode --theme /usr/share/sddm/themes/cyberpunk-mr` (run from a kitty window, screenshot the popup with `grim`) |
-| `lock.png` | Lock screen = the SDDM login screen (see `login.png`) |
 
 ## Quick capture commands
 

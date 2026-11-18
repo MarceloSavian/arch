@@ -45,7 +45,6 @@ hl.bind(key("A"),           hl.dsp.window.move({ workspace = "special:special" }
 hl.bind(key("SHIFT + R"),   hl.dsp.reload_config())
 hl.bind(key("P"),           hl.dsp.window.pseudo())              -- dwindle
 hl.bind(key("SHIFT + J"),   hl.dsp.layout("togglesplit"))        -- dwindle
-hl.bind(key("W"),           exec("eww open --toggle overview && eww update selected=_none"))
 hl.bind(key("SHIFT + W"),   exec("sh " .. scripts .. "shuffle-wallpaper.sh"))
 hl.bind(key("O"),           exec('f=$(mktemp --suffix=.png) && grim -g "$(slurp)" "$f" && tesseract "$f" - | wl-copy; rm -f "$f"'))
 hl.bind(key("N"),           exec("swaync-client -t"))
@@ -88,9 +87,6 @@ hl.bind("XF86AudioNext", exec("playerctl next"),       { locked = true })
 hl.bind(key("bracketleft"),  exec("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { repeating = true })
 hl.bind(key("bracketright"), exec("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"), { repeating = true })
 
--- Change scale on an external 4K monitor
-hl.bind(key("F3"), function() hl.monitor({ output = "DP-2", mode = "3840x2160@60", position = "0x0", scale = 1.25 }) end)
-hl.bind(key("F4"), function() hl.monitor({ output = "DP-2", mode = "3840x2160@60", position = "0x0", scale = 1 }) end)
 
 -- Focus: arrows and hjkl
 for k, dir in pairs({ left = "left", right = "right", up = "up", down = "down",

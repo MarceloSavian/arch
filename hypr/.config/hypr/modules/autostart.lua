@@ -13,6 +13,5 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("blueman-applet")
     hl.exec_cmd("wl-paste --type text --watch cliphist store")   -- text clipboard history
     hl.exec_cmd("wl-paste --type image --watch cliphist store")  -- image clipboard history
-    -- hl.exec_cmd("eww daemon")
     hl.exec_cmd("sleep 3 && /usr/lib/kdeconnectd")
 end)
